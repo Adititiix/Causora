@@ -1,0 +1,26 @@
+# Causora UI theme. Streamlit reads this from the directory it is started in, so start the UI
+# from the repository root (README section 6c). Contrast on #FAF8F6: text #151515 17.2:1,
+# slate #3C415C 9.4:1, primary #301B3F 14.6:1 (white on it 15.5:1). The mauve #B4A5A5 is
+# 2.2:1, so it is used only for borders and dividers, never for text.
+
+[theme]
+base = "light"
+primaryColor = "#301B3F"
+backgroundColor = "#FAF8F6"
+secondaryBackgroundColor = "#F2EEEB"
+textColor = "#151515"
+grayTextColor = "#3C415C"
+linkColor = "#301B3F"
+codeBackgroundColor = "#F2EEEB"
+borderColor = "#B4A5A5"
+dataframeBorderColor = "#D9D0CE"
+showWidgetBorder = true
+baseRadius = "0.5rem"
+buttonRadius = "0.5rem"
+headingFontWeights = [700, 600, 600, 600, 600, 600]
+headingFontSizes = ["2rem", "1.5rem", "1.25rem", "1.1rem", "1rem", "0.9rem"]
+
+[theme.sidebar]
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F2EEEB"
+borderColor = "#D9D0CE"

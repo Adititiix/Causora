@@ -1,0 +1,33 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.coverage
+htmlcov/
+
+# Postgres / Docker volumes
+pgdata/
+
+# NOTE: data/ and eval/questions.seed.jsonl ARE committed on purpose (small, deterministic).
+# CI regenerates them and fails if the committed copy differs from the generator output.
+
+# Airflow local state
+airflow/logs/
+airflow/airflow.db
+
+# Terraform (Day 12)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Local model cache (fastembed / Hugging Face downloads)
+.cache/
+
+# Generated evaluation reports
+eval/results/

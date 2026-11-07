@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      # The test suite creates and drops its own throwaway database on this server.
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e . --no-deps
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Committed dataset matches the generator
+        run: |
+          python scripts/generate_synthetic_data.py --out data --eval-out eval/questions.seed.jsonl
+          git diff --exit-code -- data eval/questions.seed.jsonl
+
+      - name: Tests
+        run: pytest -v
+
+  # Day 6 (eval gate) and Day 13 (build + deploy) jobs are added here later:
+  #   eval:   needs: test  -> run RAGAS on the eval set, fail if faithfulness drops
+  #   deploy: needs: eval  -> build the Docker image and deploy

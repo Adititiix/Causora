@@ -1,0 +1,20 @@
+*** Reading local file: /opt/airflow/logs/dag_id=finance_reporting/run_id=scheduled__2026-10-06T03:30:00+00:00/task_id=check_source_freshness/attempt=1.log
+[2026-10-06T03:31:08.302+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: finance_reporting.check_source_freshness scheduled__2026-10-06T03:30:00+00:00 [queued]>
+[2026-10-06T03:31:10.448+0000] {taskinstance.py:1956} INFO - Starting attempt 1 of 1
+[2026-10-06T03:31:11.093+0000] {standard_task_runner.py:60} INFO - Started process 7314 to run task
+[2026-10-06T03:31:22.640+0000] {logging_mixin.py:188} INFO - Running freshness check on orders_fact (SLA 6 hours)
+[2026-10-06T03:31:24.915+0000] {logging_mixin.py:188} INFO - Latest loaded_at in orders_fact: 2026-10-06T02:24:51Z (1h 06m old): OK
+[2026-10-06T03:31:25.207+0000] {logging_mixin.py:188} INFO - Running freshness check on payments_fact (SLA 4 hours)
+[2026-10-06T03:31:27.380+0000] {logging_mixin.py:188} INFO - Latest loaded_at in payments_fact: 2026-10-06T02:19:33Z (1h 11m old): OK
+[2026-10-06T03:31:27.611+0000] {logging_mixin.py:188} INFO - Running freshness check on shipments_fact (SLA 24 hours)
+[2026-10-06T03:31:39.774+0000] {logging_mixin.py:188} INFO - Latest loaded_at in shipments_fact: 2026-10-05T01:18:27Z
+[2026-10-06T03:31:40.006+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/finance_reporting/tasks.py", line 52, in check_source_freshness
+    run_checks(conn)
+  File "/opt/airflow/dags/common/quality.py", line 219, in check_freshness
+    raise DataQualityError(msg)
+common.quality.DataQualityError: freshness check failed for table shipments_fact: max(loaded_at) is 26h 13m old, SLA is 24 hours
+[2026-10-06T03:31:40.118+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=finance_reporting, task_id=check_source_freshness, run_id=scheduled__2026-10-06T03:30:00+00:00, execution_date=20261006T033000, end_date=20261006T033140
+[2026-10-06T03:31:40.362+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-10-06T03:31:40.591+0000] {taskinstance.py:3300} INFO - 0 downstream tasks scheduled from follow-on schedule check

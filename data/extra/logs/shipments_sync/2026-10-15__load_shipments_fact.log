@@ -1,0 +1,20 @@
+*** Reading local file: /opt/airflow/logs/dag_id=shipments_sync/run_id=scheduled__2026-10-15T01:00:00+00:00/task_id=load_shipments_fact/attempt=1.log
+[2026-10-15T01:19:12.660+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: shipments_sync.load_shipments_fact scheduled__2026-10-15T01:00:00+00:00 [queued]>
+[2026-10-15T01:19:14.205+0000] {taskinstance.py:1956} INFO - Starting attempt 1 of 1
+[2026-10-15T01:19:14.932+0000] {standard_task_runner.py:60} INFO - Started process 6541 to run task
+[2026-10-15T01:19:26.118+0000] {logging_mixin.py:188} INFO - Using connection ID 'warehouse_default' for task execution.
+[2026-10-15T01:19:39.847+0000] {logging_mixin.py:188} INFO - Read 47,906 transformed rows for shipments_fact
+[2026-10-15T01:19:40.073+0000] {logging_mixin.py:188} WARNING - Input has 47,906 rows but 47,312 distinct shipment_id values (594 duplicate rows)
+[2026-10-15T01:19:40.291+0000] {logging_mixin.py:188} INFO - Inserting 47,906 rows into shipments_fact in one transaction
+[2026-10-15T01:20:02.554+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/shipments_sync/tasks.py", line 118, in load_shipments_fact
+    bulk_insert(conn, 'shipments_fact', df)
+  File "/opt/airflow/dags/common/db.py", line 49, in bulk_insert
+    cur.executemany(insert_sql, rows)
+psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "shipments_fact_pkey"
+DETAIL:  Key (shipment_id)=(SHP-88412907) already exists.
+[2026-10-15T01:20:02.731+0000] {logging_mixin.py:188} INFO - Transaction rolled back; 0 rows written to shipments_fact
+[2026-10-15T01:20:02.948+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=shipments_sync, task_id=load_shipments_fact, run_id=scheduled__2026-10-15T01:00:00+00:00, execution_date=20261015T010000, end_date=20261015T012002
+[2026-10-15T01:20:03.170+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-10-15T01:20:03.402+0000] {taskinstance.py:3300} INFO - 0 downstream tasks scheduled from follow-on schedule check

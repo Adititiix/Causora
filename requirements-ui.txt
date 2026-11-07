@@ -1,0 +1,7 @@
+# Streamlit chat page (src/incident_copilot/ui/app.py). Host venv only; not in the Docker
+# image. The page calls the API over HTTP, so it needs neither the ML nor the LLM packages.
+# Install with:  python -m pip install -r requirements-ui.txt
+-r requirements.txt
+# Tested with 1.66 (st.navigation, chat_input callbacks, dataframe row selection, width=).
+streamlit>=1.66,<2
+httpx>=0.27

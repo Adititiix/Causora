@@ -1,0 +1,7 @@
+# Embeddings (Day 2) and Gemini (Day 3). Installed into the Docker image.
+# Install on the host with:  python -m pip install -r requirements-ml.txt
+# fastembed runs BAAI/bge-small-en-v1.5 through ONNX Runtime: no PyTorch, CPU only.
+# The model (~67 MB) is downloaded once:  python -m incident_copilot.embeddings download
+# Unit tests do not need anything in this file.
+fastembed>=0.7,<1.0
+google-genai>=1.0,<2.0

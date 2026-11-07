@@ -1,0 +1,54 @@
+name: incident-copilot
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-copilot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-incident_copilot}
+    ports:
+      - "${POSTGRES_PORT:-5434}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Runs only when the volume is first created. To upgrade an existing database run
+      # `docker compose exec api python -m incident_copilot.db_migrate`.
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    # All app settings (EMBEDDING_MODEL, GEMINI_API_KEY, ...) come from .env; the entries
+    # under `environment` override it with container-specific values.
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-copilot}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-incident_copilot}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DATA_DIR: /app/data
+      EMBEDDING_CACHE_DIR: /models
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      # Live code reload in development.
+      - ./src:/app/src
+      - ./db:/app/db:ro
+      - ./data:/app/data:ro
+      - ./eval:/app/eval:ro
+      # Downloaded embedding model; survives image rebuilds.
+      - model_cache:/models
+    command: ["uvicorn", "incident_copilot.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  # Day 8: add an Airflow service here under `profiles: ["airflow"]` so it only
+  # starts with `docker compose --profile airflow up`. It will share this db's
+  # network but use its own metadata database.
+
+volumes:
+  pgdata:
+  model_cache:

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "incident-copilot"
+version = "0.1.0"
+description = "RAG copilot that answers data-pipeline incident questions with citations."
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "scripts"]
+markers = [
+    "db: needs a running Postgres with pgvector (skipped automatically if unreachable)",
+    "slow: uses the real local embedding model (skipped unless it is already cached)",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "scripts", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebooks favour readable tables and compact plotting lines over the 100-column limit.
+"notebooks/*.ipynb" = ["E501", "E702"]

@@ -1,0 +1,4 @@
+# Added on Day 6. Kept separate: ragas pulls in many transitive packages.
+# Install with:  pip install -r requirements-eval.txt
+ragas>=0.2
+datasets>=2.20

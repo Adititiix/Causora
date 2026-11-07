@@ -1,0 +1,22 @@
+*** Reading local file: /opt/airflow/logs/dag_id=clickstream_ingest/run_id=scheduled__2026-09-04T02:00:00+00:00/task_id=consume_clickstream/attempt=1.log
+[2026-09-04T02:03:57.150+0000] {logging_mixin.py:188} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: clickstream_ingest.consume_clickstream scheduled__2026-09-04T02:00:00+00:00 [queued]>
+[2026-09-04T02:04:10.759+0000] {standard_task_runner.py:60} INFO - Starting attempt 1 of 1
+[2026-09-04T02:04:23.874+0000] {standard_task_runner.py:60} INFO - Started process 8430 to run task
+[2026-09-04T02:04:27.039+0000] {standard_task_runner.py:60} INFO - Pool 'default_pool' has 94 open slots
+[2026-09-04T02:04:37.329+0000] {standard_task_runner.py:60} INFO - Metrics emitted: task_duration_so_far=878s
+[2026-09-04T02:04:42.380+0000] {base.py:77} INFO - Checkpoint written to /tmp/airflow/clickstream_ingest/consume_clickstream/ckpt_8.json
+[2026-09-04T02:04:44.629+0000] {taskinstance.py:1956} WARNING - Consumer group shopstream-clickstream was paused for 65 hours
+[2026-09-04T02:04:47.733+0000] {base.py:77} INFO - Seeking to committed offset 97364555 on partition 10
+[2026-09-04T02:04:59.993+0000] {logging_mixin.py:188} INFO - Pool 'default_pool' has 94 open slots
+[2026-09-04T02:05:18.274+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/clickstream_ingest/tasks.py", line 35, in consume_clickstream
+    batch = poll_batch()
+  File "/opt/airflow/dags/clickstream_ingest/consumer.py", line 170, in poll_batch
+    records = consumer.poll(timeout_ms=5000)
+  File "/usr/local/lib/python3.11/site-packages/kafka/consumer/fetcher.py", line 163, in _reset_offset
+    raise Errors.OffsetOutOfRangeError(partitions)
+kafka.errors.OffsetOutOfRangeError: OffsetOutOfRangeError: topic=clickstream.events.v2 partition=10 requested_offset=97364555
+[2026-09-04T02:05:36.729+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=clickstream_ingest, task_id=consume_clickstream, run_id=scheduled__2026-09-04T02:00:00+00:00, execution_date=20260904T020000, end_date=20260904T020518
+[2026-09-04T02:05:47.580+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-09-04T02:06:09.584+0000] {taskinstance.py:3300} INFO - 0 downstream tasks scheduled from follow-on schedule check

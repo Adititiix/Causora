@@ -1,0 +1,21 @@
+*** Reading local file: /opt/airflow/logs/dag_id=marketing_attribution/run_id=scheduled__2026-09-17T02:00:00+00:00/task_id=extract_ad_spend/attempt=3.log
+[2026-09-17T02:10:54.107+0000] {connection.py:462} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: marketing_attribution.extract_ad_spend scheduled__2026-09-17T02:00:00+00:00 [queued]>
+[2026-09-17T02:11:02.951+0000] {standard_task_runner.py:60} INFO - Starting attempt 3 of 3
+[2026-09-17T02:11:30.222+0000] {standard_task_runner.py:60} INFO - Started process 5022 to run task
+[2026-09-17T02:11:59.161+0000] {base.py:77} INFO - Checkpoint written to /tmp/airflow/marketing_attribution/extract_ad_spend/ckpt_34.json
+[2026-09-17T02:12:23.802+0000] {base.py:77} INFO - Heartbeat ok; worker=airflow-worker-4
+[2026-09-17T02:12:42.524+0000] {connection.py:462} INFO - Fetched 178 pages so far
+[2026-09-17T02:12:53.597+0000] {taskinstance.py:1956} WARNING - Received 429 from ads.adnetwork.example; Retry-After header: 30
+[2026-09-17T02:12:59.605+0000] {base.py:77} INFO - Checkpoint written to /tmp/airflow/marketing_attribution/extract_ad_spend/ckpt_34.json
+[2026-09-17T02:13:06.605+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/marketing_attribution/tasks.py", line 110, in extract_ad_spend
+    records = fetch_all_pages()
+  File "/opt/airflow/dags/common/http.py", line 224, in get_json
+    resp.raise_for_status()
+  File "/usr/local/lib/python3.11/site-packages/requests/models.py", line 86, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://ads.adnetwork.example/v1/spend?page=178
+[2026-09-17T02:13:17.807+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=marketing_attribution, task_id=extract_ad_spend, run_id=scheduled__2026-09-17T02:00:00+00:00, execution_date=20260917T020000, end_date=20260917T021306
+[2026-09-17T02:13:27.020+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-09-17T02:13:55.916+0000] {taskinstance.py:3300} INFO - 0 downstream tasks scheduled from follow-on schedule check

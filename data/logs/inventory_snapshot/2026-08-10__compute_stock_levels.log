@@ -1,0 +1,21 @@
+*** Reading local file: /opt/airflow/logs/dag_id=inventory_snapshot/run_id=scheduled__2026-08-10T02:00:00+00:00/task_id=compute_stock_levels/attempt=1.log
+[2026-08-10T02:15:00.978+0000] {logging_mixin.py:188} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: inventory_snapshot.compute_stock_levels scheduled__2026-08-10T02:00:00+00:00 [queued]>
+[2026-08-10T02:15:05.154+0000] {connection.py:462} INFO - Starting attempt 1 of 1
+[2026-08-10T02:15:07.452+0000] {standard_task_runner.py:60} INFO - Started process 4362 to run task
+[2026-08-10T02:15:26.716+0000] {logging_mixin.py:188} INFO - Heartbeat ok; worker=airflow-worker-4
+[2026-08-10T02:15:37.532+0000] {logging_mixin.py:188} INFO - Heartbeat ok; worker=airflow-worker-4
+[2026-08-10T02:15:37.674+0000] {standard_task_runner.py:60} INFO - Reading partition ds=2026-08-10
+[2026-08-10T02:15:41.983+0000] {connection.py:462} INFO - Heartbeat ok; worker=airflow-worker-4
+[2026-08-10T02:15:50.246+0000] {logging_mixin.py:188} INFO - Computing stock_turnover for 1509 entities
+[2026-08-10T02:15:54.614+0000] {taskinstance.py:1956} INFO - Using connection ID 'aws_default' for task execution.
+[2026-08-10T02:16:06.402+0000] {logging_mixin.py:188} WARNING - Found 10 entities with zero average stock on 2026-08-10
+[2026-08-10T02:16:06.969+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/inventory_snapshot/tasks.py", line 64, in compute_stock_levels
+    metrics = compute_metrics(df)
+  File "/opt/airflow/dags/inventory_snapshot/metrics.py", line 87, in compute_metrics
+    stock_turnover = units_sold / avg_stock
+ZeroDivisionError: division by zero
+[2026-08-10T02:16:08.736+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=inventory_snapshot, task_id=compute_stock_levels, run_id=scheduled__2026-08-10T02:00:00+00:00, execution_date=20260810T020000, end_date=20260810T021606
+[2026-08-10T02:16:12.939+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-08-10T02:16:37.293+0000] {taskinstance.py:3300} INFO - 0 downstream tasks scheduled from follow-on schedule check

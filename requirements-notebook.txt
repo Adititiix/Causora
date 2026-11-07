@@ -1,0 +1,10 @@
+# Evaluation notebook (notebooks/incident_copilot_evaluation.ipynb). Host venv only; not in
+# the Docker image. Adds about 285 MB. The notebook also needs requirements-ml.txt (fastembed)
+# and the cached embedding model:  python -m incident_copilot.embeddings download
+-r requirements-ml.txt
+pandas>=2.2,<3
+matplotlib>=3.8,<4
+ipykernel>=6.29,<8
+nbclient>=0.10,<1
+nbformat>=5.10,<6
+jupyterlab>=4.2,<5

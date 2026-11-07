@@ -1,0 +1,8 @@
+# Core runtime (Day 1). Heavier layers live in their own files so the
+# base image stays small and CI stays fast.
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30,<1.0
+pydantic>=2.8,<3.0
+pydantic-settings>=2.4,<3.0
+psycopg[binary,pool]>=3.2,<4.0
+pgvector>=0.3,<1.0

@@ -1,0 +1,21 @@
+*** Reading local file: /opt/airflow/logs/dag_id=clickstream_ingest/run_id=scheduled__2026-08-20T02:00:00+00:00/task_id=load_sessions_fact/attempt=1.log
+[2026-08-20T02:16:51.737+0000] {standard_task_runner.py:60} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: clickstream_ingest.load_sessions_fact scheduled__2026-08-20T02:00:00+00:00 [queued]>
+[2026-08-20T02:17:06.398+0000] {connection.py:462} INFO - Starting attempt 1 of 1
+[2026-08-20T02:17:11.908+0000] {standard_task_runner.py:60} INFO - Started process 7981 to run task
+[2026-08-20T02:17:23.477+0000] {base.py:77} INFO - Metrics emitted: task_duration_so_far=445s
+[2026-08-20T02:17:47.343+0000] {standard_task_runner.py:60} INFO - Using connection ID 'aws_default' for task execution.
+[2026-08-20T02:18:01.645+0000] {standard_task_runner.py:60} INFO - Reading partition ds=2026-08-20
+[2026-08-20T02:18:27.630+0000] {taskinstance.py:1956} INFO - Pool 'default_pool' has 94 open slots
+[2026-08-20T02:18:30.138+0000] {base.py:77} INFO - Running row count check on sessions_fact
+[2026-08-20T02:18:52.450+0000] {logging_mixin.py:188} INFO - Pool 'default_pool' has 94 open slots
+[2026-08-20T02:18:53.520+0000] {logging_mixin.py:188} INFO - Source system reported 111,620 rows for ds=2026-08-20
+[2026-08-20T02:19:15.789+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/clickstream_ingest/tasks.py", line 220, in load_sessions_fact
+    run_checks(conn)
+  File "/opt/airflow/dags/common/quality.py", line 132, in check_row_count
+    raise DataQualityError(msg)
+common.quality.DataQualityError: row count check failed for sessions_fact ds=2026-08-20: 40,501 rows, 7-day median is 113,652 (-64.4%), allowed drop is 40%
+[2026-08-20T02:19:16.979+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=clickstream_ingest, task_id=load_sessions_fact, run_id=scheduled__2026-08-20T02:00:00+00:00, execution_date=20260820T020000, end_date=20260820T021915
+[2026-08-20T02:19:21.165+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-08-20T02:19:23.418+0000] {taskinstance.py:3300} INFO - 0 downstream tasks scheduled from follow-on schedule check

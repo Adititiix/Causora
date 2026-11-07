@@ -1,0 +1,7 @@
+# Keep line endings identical on every OS. The dataset is hashed (manifest.json) and CI
+# checks that the committed copy matches the generator, so Windows must not convert to CRLF.
+* text=auto eol=lf
+data/** -text
+eval/** -text
+*.sql text eol=lf
+*.sh text eol=lf

@@ -1,0 +1,6 @@
+-r requirements.txt
+pytest>=8.0
+httpx>=0.27
+ruff>=0.6
+# Lets the Gemini provider be unit-tested offline (with a fake client; no key, no network).
+google-genai>=1.0,<2.0

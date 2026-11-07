@@ -1,0 +1,22 @@
+*** Reading local file: /opt/airflow/logs/dag_id=shipments_sync/run_id=scheduled__2026-10-06T01:00:00+00:00/task_id=transform_shipments/attempt=2.log
+[2026-10-06T01:13:02.114+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: shipments_sync.transform_shipments scheduled__2026-10-06T01:00:00+00:00 [queued]>
+[2026-10-06T01:13:04.530+0000] {taskinstance.py:1956} INFO - Starting attempt 2 of 2
+[2026-10-06T01:13:05.871+0000] {standard_task_runner.py:60} INFO - Started process 6120 to run task
+[2026-10-06T01:13:19.226+0000] {logging_mixin.py:188} INFO - Using connection ID 'warehouse_default' for task execution.
+[2026-10-06T01:13:41.402+0000] {logging_mixin.py:188} INFO - Loaded 48,213 rows from shipments_raw (columns: shipment_id, order_id, carrier_id, shipped_at, delivered_at, status, updated_at)
+[2026-10-06T01:13:41.517+0000] {logging_mixin.py:188} INFO - Applying transform step 1/4: parse_timestamps
+[2026-10-06T01:13:41.655+0000] {logging_mixin.py:188} INFO - Applying transform step 2/4: normalize_carrier
+[2026-10-06T01:13:41.903+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/shipments_sync/tasks.py", line 74, in transform_shipments
+    df = apply_transforms(df)
+  File "/opt/airflow/dags/shipments_sync/transforms.py", line 41, in apply_transforms
+    df['carrier_code'] = df['carrier_code'].str.upper()
+  File "/usr/local/lib/python3.11/site-packages/pandas/core/frame.py", line 75, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/usr/local/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 215, in get_loc
+    raise KeyError(key) from err
+KeyError: 'carrier_code'
+[2026-10-06T01:13:42.017+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=shipments_sync, task_id=transform_shipments, run_id=scheduled__2026-10-06T01:00:00+00:00, execution_date=20261006T010000, end_date=20261006T011341
+[2026-10-06T01:13:42.250+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-10-06T01:13:42.488+0000] {taskinstance.py:3300} INFO - 0 downstream tasks scheduled from follow-on schedule check
