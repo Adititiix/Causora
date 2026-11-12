@@ -13,7 +13,7 @@ jobs:
         image: pgvector/pgvector:pg16
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: ci-test-password-2026
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
@@ -24,7 +24,7 @@ jobs:
           --health-retries 10
     env:
       # The test suite creates and drops its own throwaway database on this server.
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+      DATABASE_URL: postgresql://postgres:ci-test-password-2026@localhost:5432/postgres
     steps:
       - uses: actions/checkout@v4
 

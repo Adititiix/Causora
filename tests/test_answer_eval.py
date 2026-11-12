@@ -24,6 +24,7 @@ from incident_copilot.evaluation.answers import (
 )
 from incident_copilot.evaluation.harness import load_questions
 from incident_copilot.generation import FakeLLMProvider, LLMError, LLMNotConfiguredError
+from incident_copilot.generation.clarify import NearMiss
 from incident_copilot.retrieval import Hit
 
 SEED = Path(__file__).resolve().parents[1] / "eval" / "questions.seed.jsonl"
@@ -309,6 +310,17 @@ def cli(seed, monkeypatch, tmp_path):
     monkeypatch.setattr(answer_eval, "get_retriever", lambda name, emb: MapRetriever(seed))
     monkeypatch.setattr(answer_eval, "index_fingerprint",
                         lambda: {"documents": 3, "chunks": 4, "corpus_sha256": "abc"})
+
+    # The real factories read index metadata from PostgreSQL (clarify.py). Offline doubles:
+    # never ask for clarification and never resolve a near miss, so the gate decides alone.
+    def no_clarifier(retriever, *, min_similarity, max_candidates):
+        return lambda question, hits: []
+
+    def no_near_miss(retriever, *, min_similarity, max_candidates):
+        return lambda question, hits: NearMiss()
+
+    monkeypatch.setattr(answer_eval, "make_clarifier", no_clarifier)
+    monkeypatch.setattr(answer_eval, "make_near_miss_resolver", no_near_miss)
     root = tmp_path / "results"
     existing = root / "20261022T053248Z"
     existing.mkdir(parents=True)
